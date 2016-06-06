@@ -5,7 +5,7 @@ from flask import Flask, jsonify, abort, request, make_response, url_for
 app = Flask(__name__, static_url_path ="")
 
 @app.errorhandler(400)
-def not_found(error):
+def bad_request(error):
     return make_response(jsonify( { 'error': 'Bad request' } ), 400)
 
 @app.errorhandler(404)
