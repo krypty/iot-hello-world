@@ -90,13 +90,24 @@ def create_task():
     if not request.json or not 'title' in request.json:
         abort(400)
     task = {
-        'id': tasks[-1]['id'] + 1,
         'title': request.json['title'],
-        'description': request.json.get('description', ),
-        'done': False
+        'description': request.json['description'],
+        'done': "0"
     }
-    tasks.append(task)
-    return jsonify({'task': make_public_task(task)}), 201
+
+    try:
+        cur = con.cursor()
+        sql = "INSERT INTO " + MYSQL_DB + "." + TASKS_TABLE + \
+            " (title, description, done) VALUES (%s, %s, %s)"
+
+        cur.execute(sql, (task["title"], task["description"], task["done"]))
+        con.commit()
+    except Exception as e:
+        con.rollback()
+        raise e
+        abort(400)
+
+    return get_task(cur.lastrowid), 201
 
 
 @app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['PUT'])
