@@ -169,11 +169,20 @@ def update_task(task_id):
 
 @app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['DELETE'])
 def delete_task(task_id):
-    task = list(filter(lambda t: t['id'] == task_id, tasks))
-    if len(task) == 0:
-        abort(404)
-    tasks.remove(task[0])
-    return jsonify({'result': True})
+    try:
+        cur = con.cursor()
+        sql = "DELETE FROM " + TASKS_TABLE + " WHERE id=%s"
+        cur.execute(sql, (task_id, ))
+        con.commit()
+
+        if cur.rowcount == 1:
+            return jsonify({'result': True})
+        else:
+            return jsonify({'result': False})
+    except Exception as e:
+        con.rollback()
+        raise e
+        abort(400)
 
 
 if __name__ == '__main__':
