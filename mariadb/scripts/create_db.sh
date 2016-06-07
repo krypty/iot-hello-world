@@ -18,3 +18,5 @@ mysql -uroot -palpine -e "CREATE TABLE todo_list.tbl_tasks (
 # Fill db with default entry
 mysql -uroot -palpine -e "INSERT INTO todo_list.tbl_tasks (title, description, done)
 VALUES ('My first task', 'This is my first task', '0');"
+mysql -uroot -palpine -e "INSERT INTO todo_list.tbl_tasks (title, description, done)
+VALUES ('My second task', 'This is my second task', '1');"
