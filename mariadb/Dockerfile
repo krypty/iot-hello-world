@@ -24,4 +24,5 @@ ADD scripts/* /scripts/
 RUN chmod 700 /scripts/startup.sh && \
   chmod 700 /scripts/create_db.sh
 
+# TODO pass env var to this script
 CMD ["/scripts/startup.sh"]

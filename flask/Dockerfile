@@ -3,17 +3,22 @@ FROM armhf/alpine@sha256:9f7b4923ee5e7c4ca0529431266876a70703412beee4cf72b934283
 
 MAINTAINER Gary Marigliano <gary.marigliano@master.hes-so.ch>
 
+EXPOSE 5000
+
 RUN apk update && apk upgrade && apk add \
-  python3 \
-  curl \
+  python \
+  py-mysqldb \
+  mysql-client \
+  mysql-dev \
+  py-pip \
   && rm -rf /tmp/* \
   && rm -rf /var/cache/apk/*
 
-RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
-  python3 get-pip.py && \
-  rm get-pip.py
+# RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
+#   python get-pip.py && \
+#   rm get-pip.py
 
-RUN pip --no-cache-dir install Flask
+RUN pip --no-cache-dir install flask MySQL-python
 
 ENV APP_NAME iot-hello-world
 
@@ -21,11 +26,17 @@ CMD mkdir ${APP_NAME}
 
 WORKDIR ${APP_NAME}
 
-# Use an unprivileged user called nobody
-USER nobody
+# # Use an unprivileged user called nobody
+# USER nobody
 
-ADD src .
+# 1 apk update && apk upgrade
+# 2 apk add python py-mysqldb mysql-client mysql-dev py-pip
+# 3 pip install flask MySQL-python
+# 4 python
+# 5 history
 
-EXPOSE 5000
 
-CMD ["python3", "main.py"]
+ADD src app/
+
+# CMD ["/bin/sh"]
+CMD ["python", "app/main.py"]
