@@ -3,14 +3,15 @@
 from flask import Flask, jsonify, abort, request, make_response, url_for
 import MySQLdb as mdb
 from collections import OrderedDict
+import os
 
 app = Flask(__name__, static_url_path="")
 
-MYSQL_USERNAME = "toto"
-MYSQL_PASSWORD = "password"
-MYSQL_HOST = "mysqlsrv"
-MYSQL_DB = "todo_list"
-TASKS_TABLE = "tbl_tasks"
+MYSQL_USERNAME = os.environ["MYSQL_USERNAME"]
+MYSQL_PASSWORD = os.environ["MYSQL_PASSWORD"]
+MYSQL_HOST = os.environ["MYSQL_HOSTNAME"]
+MYSQL_DB = os.environ["MYSQL_DB"]
+TASKS_TABLE = os.environ["TASKS_TABLE"]
 
 # MySQL configurations
 
