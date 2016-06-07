@@ -1,2 +1,2 @@
 #!/bin/bash
-docker run -d --name "mysqlsrv" -v /tmp/toto/:/var/lib/mysql mysql-alpine
+docker run --disable-content-trust -d --name "mysqlsrv" -v /tmp/toto/:/var/lib/mysql mysql-alpine
