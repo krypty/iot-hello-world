@@ -26,21 +26,6 @@ def bad_request(error):
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
-tasks = [
-    {
-        'id': 1,
-        'title': u'Buy groceries',
-        'description': u'Milk, Cheese, Pizza, Fruit, Tylenol',
-        'done': False
-    },
-    {
-        'id': 2,
-        'title': u'Learn Python',
-        'description': u'Need to find a good Python tutorial on the web',
-        'done': False
-    }
-]
-
 
 def bool_to_tinyint(b):
     if not isinstance(b, bool):
