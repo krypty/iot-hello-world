@@ -43,39 +43,46 @@ tasks = [
 
 def make_public_task(task):
     new_task = {}
-    for field in task:
-        if field == 'id':
-            new_task['uri'] = url_for('get_task', task_id=task[
-                                      'id'], _external=True)
-        else:
-            new_task[field] = task[field]
+
+    new_task["id"] = task[0]
+    new_task["title"] = task[1]
+    new_task["description"] = task[2]
+    new_task["done"] = True if task[3] == 1 else False
+    new_task['uri'] = url_for('get_task', task_id=task[0], _external=True)
+
     return new_task
 
 
 @app.route('/todo/api/v1.0/tasks', methods=['GET'])
 def get_tasks():
-    # db.query("""SELECT * FROM %s""" % TASKS_TABLE)
-    # r = db.use_result()
-    # tasks = r.fetch_row()
-    # return jsonify({"tasks": str(tasks)})
     with con:
         cur = con.cursor()
         sql = """SELECT * FROM %s""" % TASKS_TABLE
         cur.execute(sql)
 
         results = cur.fetchall()
-        return jsonify({"tasks": str(results)})
-        # return jsonify({'tasks': list(map(make_public_task, results))})
+
+        return jsonify({'tasks': [make_public_task(task) for task in results]})
 
     abort(400)
 
 
 @app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['GET'])
 def get_task(task_id):
-    task = list(filter(lambda t: t['id'] == task_id, tasks))
-    if len(task) == 0:
-        abort(404)
-    return jsonify({'task': make_public_task(task[0])})
+    with con:
+        cur = con.cursor()
+        sql = """SELECT * FROM %s WHERE id=%s""" % (TASKS_TABLE, task_id)
+        cur.execute(sql)
+
+        results = cur.fetchall()
+
+        if len(results) == 0:
+            abort(404)
+
+        task = results[0]
+        return jsonify({'task': make_public_task(task)})
+
+    abort(400)
 
 
 @app.route('/todo/api/v1.0/tasks', methods=['POST'])

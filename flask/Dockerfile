@@ -29,13 +29,6 @@ WORKDIR ${APP_NAME}
 # # Use an unprivileged user called nobody
 # USER nobody
 
-# 1 apk update && apk upgrade
-# 2 apk add python py-mysqldb mysql-client mysql-dev py-pip
-# 3 pip install flask MySQL-python
-# 4 python
-# 5 history
-
-
 ADD src app/
 
 # CMD ["/bin/sh"]
