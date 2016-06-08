@@ -1,4 +1,4 @@
-#!usr/bin/python3
+#!usr/bin/python
 # coding: utf-8
 from flask import Flask, jsonify, abort, request, make_response, url_for
 import MySQLdb as mdb
