@@ -1,4 +1,3 @@
-#TODO: create unprivileged user, link data to mariadb container, bing logs, remove downloaded packages
 FROM armhf/alpine@sha256:9f7b4923ee5e7c4ca0529431266876a70703412beee4cf72b93428393418b3bc
 
 MAINTAINER Gary Marigliano <gary.marigliano@master.hes-so.ch>
@@ -23,7 +22,7 @@ CMD mkdir ${APP_NAME}
 WORKDIR ${APP_NAME}
 
 # # Use an unprivileged user called nobody
-# USER nobody
+USER nobody
 
 ADD src app/
 
